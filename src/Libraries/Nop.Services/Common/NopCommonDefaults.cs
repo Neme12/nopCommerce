@@ -104,5 +104,19 @@
         public static string DbBackupFileExtension => "bak";
 
         #endregion
+
+        #region FaviconAndAppIcons
+
+        /// <summary>
+        /// Gets a file name 
+        /// </summary>
+        public static string HeadCodeFileName => "html_code.html";
+
+        /// <summary>
+        /// Gets a path to the database backup files
+        /// </summary>
+        public static string FaviconAndAppIconsPath => "icons\\icons_{0}";
+
+        #endregion
     }
 }

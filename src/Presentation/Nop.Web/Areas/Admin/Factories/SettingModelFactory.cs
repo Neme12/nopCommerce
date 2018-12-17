@@ -405,7 +405,6 @@ namespace Nop.Web.Areas.Admin.Factories
             return model;
         }
 
-
         /// <summary>
         /// Prepare security settings model
         /// </summary>

@@ -106,13 +106,13 @@ namespace Nop.Web.Areas.Admin.Controllers
             this._customerActivityService = customerActivityService;
             this._customerService = customerService;
             this._encryptionService = encryptionService;
-            this._fileProvider = fileProvider;
             this._fulltextService = fulltextService;
             this._genericAttributeService = genericAttributeService;
             this._gdprService = gdprService;
             this._localizedEntityService = localizedEntityService;
             this._localizationService = localizationService;
             this._maintenanceService = maintenanceService;
+            this._fileProvider = fileProvider;
             this._notificationService = notificationService;
             this._orderService = orderService;
             this._permissionService = permissionService;
@@ -1607,29 +1607,21 @@ namespace Nop.Web.Areas.Admin.Controllers
                 var storeScope = _storeContext.ActiveStoreScopeConfiguration;
                 var commonSettings = _settingService.LoadSetting<CommonSettings>(storeScope);
 
-                var headCodePath = _fileProvider.Combine(_fileProvider.MapPath($"~/wwwroot/icons/icons_{_storeContext.ActiveStoreScopeConfiguration}"), "headCode.html");
-
+                var headCodePath = _fileProvider.GetAbsolutePath(string.Format(NopCommonDefaults.FaviconAndAppIconsPath, _storeContext.ActiveStoreScopeConfiguration), NopCommonDefaults.HeadCodeFileName);
                 using (var sr = new StreamReader(headCodePath))
                 {
                     commonSettings.FaviconAndAppIconsHeadCode = sr.ReadToEnd();
                 }
 
-                _settingService.SaveSettingOverridablePerStore(commonSettings, x => x.FaviconAndAppIconsHeadCode, true, storeScope, false);
-
-                //now clear settings cache
-                _settingService.ClearCache();
+                _settingService.SaveSettingOverridablePerStore(commonSettings, x => x.FaviconAndAppIconsHeadCode, true, storeScope, true);
 
                 //activity log
                 _customerActivityService.InsertActivity("UploadIconsArchive", string.Format(_localizationService.GetResource("ActivityLog.UploadNewIconsArchive"), _storeContext.ActiveStoreScopeConfiguration));
                 _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Configuration.FaviconAndAppIcons.Uploaded"));
-
-
-                //now clear settings cache
-                _settingService.ClearCache();
             }
-            catch (Exception exc)
+            catch (Exception)
             {
-                _notificationService.ErrorNotification(exc);
+                _notificationService.ErrorNotification(string.Format(_localizationService.GetResource("Admin.Configuration.Settings.GeneralCommon.FaviconAndAppIcons.MissingFile"), NopCommonDefaults.HeadCodeFileName));
             }
 
             return RedirectToAction("GeneralCommon");

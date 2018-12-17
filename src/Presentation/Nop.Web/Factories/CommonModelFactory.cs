@@ -718,7 +718,7 @@ namespace Nop.Web.Factories
         /// <returns>Favicon model</returns>
         public virtual FaviconAndAppIconsModel PrepareFaviconAndAppIconsModel()
         {
-            var model = new FaviconAndAppIconsModel()
+            var model = new FaviconAndAppIconsModel
             {
                 HeadCode = _commonSettings.FaviconAndAppIconsHeadCode
             };

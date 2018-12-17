@@ -10,6 +10,7 @@ using Newtonsoft.Json.Converters;
 using Nop.Core;
 using Nop.Core.Infrastructure;
 using Nop.Core.Plugins;
+using Nop.Services.Common;
 using Nop.Services.Themes;
 
 namespace Nop.Services.Plugins
@@ -334,7 +335,7 @@ namespace Nop.Services.Plugins
                 //check if there is a folder for favicon and app icons for the current store (all store icons folders are in wwwroot/icons and are called icons_{storeId})
                 //if the folder does not exist, create it
                 //if the folder is already there - we delete it (since the pictures in the folder are in the unpacked version, there will be many files and it is easier for us to delete the folder than to delete all the files one by one) and create anew
-                var storeIconsPath = _fileProvider.MapPath($"~/wwwroot/icons/icons_{_storeContext.ActiveStoreScopeConfiguration}");
+                var storeIconsPath = _fileProvider.GetAbsolutePath(string.Format(NopCommonDefaults.FaviconAndAppIconsPath, _storeContext.ActiveStoreScopeConfiguration));
 
                 if (!_fileProvider.DirectoryExists(storeIconsPath))
                 {

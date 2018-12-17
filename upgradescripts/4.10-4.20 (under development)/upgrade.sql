@@ -234,7 +234,7 @@ set @resources='
     <Value>Select location</Value>
   </LocaleResource>
   <LocaleResource Name="ActivityLog.UploadNewIconsArchive">
-    <Value>Uploaded a new favicon and app icons archive for store {0}</Value>
+    <Value>Uploaded a new favicon and app icons archive for store (ID = {0})</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.FaviconAndAppIcons.Uploaded">
     <Value>Favicon and app icons have been uploaded</Value>
@@ -249,7 +249,10 @@ set @resources='
     <Value>Upload archive with favicon and app icons for different operating systems and devices. You can see an example of the favicon and app icons archive in wwwroot/icons/samples. Your favicon and app icons path is "icons/icons_{0}"</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.FaviconAndAppIcons.Description">
-    <Value>Favicon and app icons are small pictures associated with a particular website or web page. They are displayed by the browser in the tab before the page title, and as a picture next to a bookmark, in tabs and in other interface elements. You can see an example of the favicon and app icons archive in wwwroot/icons/samples.</Value>
+    <Value>Favicon and app icons are small pictures associated with a particular website or web page. They are displayed by the browser in the tab before the page title, and as a picture next to a bookmark, in tabs and in other interface elements. You can see an example of the favicon and app icons archive in /icons/samples in the root of the site.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Configuration.Settings.GeneralCommon.FaviconAndAppIcons.MissingFile">
+    <Value>Could not find file {0}. This file is required. It contains the code for the page head element.</Value>
   </LocaleResource>
 </Language>'
 
@@ -1051,9 +1054,7 @@ GO
 --new activity log type
 IF NOT EXISTS (SELECT 1 FROM [ActivityLogType] WHERE [Name] = N'Upload a favicon and app icons archive')
 BEGIN
-	SET IDENTITY_INSERT [dbo].[ActivityLogType] ON 
 	INSERT [dbo].[ActivityLogType] ([Id], [SystemKeyword], [Name], [Enabled]) VALUES (150, N'UploadIconsArchive', N'Upload a favicon and app icons archive', 1)
-	SET IDENTITY_INSERT [dbo].[ActivityLogType] OFF
 END
 GO
 

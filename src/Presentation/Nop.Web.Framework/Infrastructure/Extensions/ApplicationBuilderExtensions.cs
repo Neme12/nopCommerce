@@ -244,7 +244,7 @@ namespace Nop.Web.Framework.Infrastructure.Extensions
 
             application.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "icons")),
+                FileProvider = new PhysicalFileProvider(fileProvider.GetAbsolutePath("icons")),
                 RequestPath = "/icons",
                 ContentTypeProvider = provider
             });
